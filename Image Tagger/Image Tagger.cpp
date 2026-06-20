@@ -3,22 +3,37 @@
 #include <filesystem>
 #include <vector>
 
+void LoadImagesFromFolder(std::string location);
+
 struct imageFiles
 {
     imageFiles();
-    imageFiles(std::string path[]);
-    imageFiles(std::string path[], std::string extension[]);
-    imageFiles(std::string path[], std::string name[], std::string idTag[]);
-
 };
 
 int main()
 {
-    //Todo
+    std::string folderLocation;
+    std::cout << "Enter the path to the folder containing the images: " << '\n';
+    std::getline(std::cin, folderLocation);
+
+    LoadImagesFromFolder(folderLocation);
+    return 0;
 }
 
-imageFiles LoadImagesFromFolder(std::string path[], std::string extension[])
+void LoadImagesFromFolder(std::string location)
 {
+    std::filesystem::directory_entry dir(location);
+
+    if (dir.exists() && dir.is_directory())
+    {
+        for (std::filesystem::directory_entry path : std::filesystem::directory_iterator(dir))
+        {
+            if (path.is_regular_file())
+            {
+                std::cout << path.path().filename() << '\n';
+            }
+        }
+    }
     /**Psuedo Code**
     SET path to user input
     IF path isn't empty

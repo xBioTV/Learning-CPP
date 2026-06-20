@@ -57,3 +57,45 @@ I searched for C++ Docs but apparently? documentation for this language as a who
 
 So, I've opened LM Studio, Visual Studio, my Solution, and realized something. The Solution is called "Hello GitHub" and it contains the project "Hello GitHub"
 When setting up the solution I must have made a mistake, so I'll need to rename it. My first step is going to google if I can just right-click rename the solution inside visual studio.
+It's safe to do, so I went ahead and renamed the Solution.
+
+My next task is to look further into std::filesystem so I can get this portion of the program working. Im setting a 20 minute timer and If I cant figure it out by then I will look up and use someone elses code.
+
+I went over the 20 minute timer but I managed to partially figure it out before needing to look things up.
+
+My initial thought was to get the user input with std::cin and for loop through the provided directory, but was running into the error of cin not being able to take a filesystem type.
+
+that lead me to finding std::filesystem::directory_entry(); which initially had me running into the same error until I found std::getline();
+
+while I was struggling with that I figured I'd get some basic checks done, like if the directory exists (std::filesystem::directory_entry::exists()), and if what I input is even a directory (std::filesystem::directory_entry::is_directory())
+
+once I had that setup I found a C++ doc site called https://en.cppreference.com/ which, despite what I said earlier, is the python-esq docs I was looking for!
+
+that took me to std::filesystem::directory_entry::path() where I learned about std::filesystem::directory_entry::path()::is_regular_file() which showed me a code snippet of a weird looking for loop
+
+
+```
+for (fs::directory_entry const& entry : fs::directory_iterator(dir))
+            if (entry.is_regular_file())
+                std::cout << entry.path().filename() << '\n';
+```
+
+so first cannablizing my for loop which was giving me type errors I managed to learn what is sort of going on
+the first part is creating a filesystem::directory_entry variable named entry.
+`for (fs::directory_entry const& entry`
+the second part is using the filesystem::directory_iterator() to iterate through the files.
+` : fs::directory_iterator(dir))`
+the only part of this loop im not totally understanding is the colon between entry and the iterator. I assume it's newer c++ syntax and equivalent to a semi-colon in a regular for loop.
+
+the is_regular_file() check and filename() were added to my code, and made me realize that to fix my earlier issue in my "LoadImagesFromFolder" function I should remove the string[] types 
+I was passing through it, and instead add a non-array string.
+`void LoadImagesFromFolder(std::string location)`
+I then created a filesystem::directory_entry named dir and stored location in it.
+`std::filesystem::directory_entry dir(location);`
+
+However I was then running into an issue that made me unlock a core memory of when I first wanted to learn programming, I would watch TheNewBostons youtube tutorials. in which
+to use a function after your main() you have to declare it before the main().
+
+I'm sure there is a more elegant way write this, but it works! That's where I'm going to call it for now, about an hours worth of progress was made.
+
+later today, or tomorrow when I come I'll add image file extensions, and fix edge-cases.
