@@ -99,3 +99,7 @@ to use a function after your main() you have to declare it before the main().
 I'm sure there is a more elegant way write this, but it works! That's where I'm going to call it for now, about an hours worth of progress was made.
 
 later today, or tomorrow when I come I'll add image file extensions, and fix edge-cases.
+
+# Monday, 6-29-26
+
+Opened the project for the first time in 10 days roughly, commented code, and then stopped for the day. Going to try to make working on the projects, and repo as a whole a daily thing, even if for 5 minutes.
